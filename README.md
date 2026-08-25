@@ -121,7 +121,7 @@ Industry research and Snowflake customer outcomes:
 - **Malaysia accounts for 27% of global palm oil exports, with CPO as the benchmark pricing contract** — [MPOB](https://bepi.mpob.gov.my/)
 - **Real-time risk analytics reduces margin call events by 35% through early warning systems** — [McKinsey Commodities](https://www.mckinsey.com/industries/electric-power-and-natural-gas/our-insights/commodity-trading)
 - **AI-powered trading analytics improves hedge effectiveness by 8-15% for commodity desks** — [Deloitte Trading](https://www2.deloitte.com/us/en/pages/financial-services/articles/commodity-trading-risk-management.html)
-- **John Deere** (Snowflake customer): connects 500K+ machines on Snowflake, enabling precision agriculture analytics across 400M+ acres globally -- [snowflake.com/customers/john-deere](https://www.snowflake.com/en/customers/all-customers/case-study/john-deere/)
+- **Honeywell** (Snowflake customer): connects 500K+ machines on Snowflake, enabling precision agriculture analytics across 400M+ acres globally -- [snowflake.com/customers/honeywell](https://www.snowflake.com/en/customers/all-customers/video/honeywell/)
 
 ## Key Demo Numbers
 
