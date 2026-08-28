@@ -35,99 +35,47 @@ export default function HomePage() {
   const executiveCockpit = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="Total Yield" value="RM 2.4B" status="neutral" />
-        <KPICard title="EUDR Compliance" value="7" status="warning" />
-        <KPICard title="Anomalies Detected" value="3" status="danger" />
-        <KPICard title="Active Mills" value="124" status="neutral" />
+        <KPICard title="CPO Price (BMD)" value="RM 3,847/MT" status="neutral" />
+        <KPICard title="Export Volume (MTD)" value="1.8M MT" status="neutral" />
+        <KPICard title="Export Duty" value="8%" status="neutral" />
+        <KPICard title="Active Contracts" value="284" status="neutral" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Chart
-          data={data?.timeseries || [{ period: 'Loading', value: 0 }]}
-          type="line"
-          xKey="period"
-          yKeys={[{ key: 'value', name: 'Yield' }]}
-          title="Yield Trend (Weekly)"
-        />
-        <Chart
-          data={data?.categories || [{ category: 'Loading', count: 0 }]}
-          type="bar"
-          xKey="category"
-          yKeys={[{ key: 'count', name: 'Count' }]}
-          title="EUDR Compliance by Mill"
-        />
+        <Chart data={data?.timeseries || [{ period: 'Loading', value: 0 }]} type="line" xKey="period" yKeys={[{ key: 'value', name: 'RM/MT' }]} title="CPO Price vs Production (Weekly)" />
+        <Chart data={data?.categories || [{ category: 'Loading', count: 0 }]} type="bar" xKey="category" yKeys={[{ key: 'count', name: 'MT (K)' }]} title="Export by Destination" />
       </div>
-      <DataTable
-        columns={[
+      <DataTable columns={[
           { key: 'id', header: '#' },
-          { key: 'name', header: 'Mill' },
-          { key: 'status', header: 'Status' },
-          { key: 'value', header: 'Yield' },
-        ]}
-        data={data?.entities || []}
-        title="Mill Performance"
-      />
+          { key: 'name', header: 'Buyer' },
+          { key: 'status', header: 'Trend' },
+          { key: 'value', header: 'Volume (K MT)' },
+      ]} data={data?.entities || []} title="Trading Performance" />
     </div>
   );
 
   const domainTab1 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KPICard title="Efficiency" value="87%" />
-        <KPICard title="Utilization" value="72%" />
-        <KPICard title="Growth Rate" value="+8.4%" />
+        <KPICard title="FOB Premium" value="+RM 84/MT" />
+        <KPICard title="B20 Impact" value="+420K MT" />
+        <KPICard title="India Duty" value="12.5%" />
       </div>
-      <Chart
-        data={data?.detail || [{ x: 'Loading', y: 0 }]}
-        type="area"
-        xKey="x"
-        yKeys={[{ key: 'y', name: 'Index' }]}
-        title="Oil Trading Performance Trend"
-        height={400}
-      />
+      <Chart data={data?.detail || [{ x: 'Loading', y: 0 }]} type="area" xKey="x" yKeys={[{ key: 'y', name: 'RM/MT' }]} title="CPO Price Forecast (30-day)" height={400} />
     </div>
   );
 
   const domainTab2 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Chart
-          data={data?.breakdown || [{ label: 'A', value: 30 }, { label: 'B', value: 70 }]}
-          type="pie"
-          xKey="label"
-          yKeys={[{ key: 'value', name: 'Score' }]}
-          title="Risk Distribution"
-        />
-        <ActionMemo
-          persona={{ name: 'Malaysia Operations Lead', role: 'Director of Oil Trading' }}
-          context={{}}
-          onGenerate={async () => ({
-            subject: 'Action Required',
-            body: 'AI-generated recommendation based on current data patterns and predicted trends.',
-            urgency: 'HIGH',
-            actions: ['Review top eudr compliance findings', 'Optimize mill allocation', 'Prepare quarterly oil trading report'],
-          })}
-        />
+        <Chart data={data?.breakdown || [{ label: 'A', value: 30 }, { label: 'B', value: 70 }]} type="pie" xKey="label" yKeys={[{ key: 'value', name: 'RM M' }]} title="Export Duty Sensitivity" />
+        <ActionMemo persona={{ name: 'Ahmad Faiz Rahman', role: 'Head of Trading' }} context={{}} onGenerate={async () => ({ subject: 'Action Required', body: 'AI-generated recommendation based on current data patterns.', urgency: 'HIGH', actions: ['Lock in India price before duty revision', 'Hedge 30K MT for Q4', 'Negotiate premium for RSPO cargo'] })} />
       </div>
     </div>
   );
 
   const askAiTab = (
     <div className="h-[600px]">
-      <AskAI
-        title="Ask AI"
-        sampleQuestions={[
-          'Which mills have the highest eudr compliance?',
-          'Show yield trend for the last 30 days',
-          'What is the forecast for next quarter's yield?',
-        ]}
-        mode="both"
-        onSubmit={async (question, mode) => {
-          return {
-            answer: `[Demo Mode] Response to: "${question}" (${mode} mode). Connect to Snowflake for live data.`,
-            sql: mode === 'sql' ? 'SELECT * FROM CURATED.SUMMARY LIMIT 10;' : undefined,
-          };
-        }}
-      />
+      <AskAI title="Ask AI" sampleQuestions={['What is the CPO price forecast?', 'Show export duty impact vs Indonesia', 'Which markets have best margins?']} mode="both" onSubmit={async (question, mode) => ({ answer: `[Demo Mode] Response to: "${question}" (${mode} mode). Connect to Snowflake for live data.`, sql: mode === 'sql' ? 'SELECT * FROM CURATED.SUMMARY LIMIT 10;' : undefined })} />
     </div>
   );
 
@@ -135,9 +83,7 @@ export default function HomePage() {
     <div className="space-y-6">
       <div className="rounded-lg border border-slate-200 bg-white p-6">
         <h2 className="mb-4 text-lg font-bold text-slate-900">Architecture</h2>
-        <p className="mb-4 text-sm text-slate-600">
-          This demo runs on Snowflake with optional AWS integration. See the README for the full architecture diagram.
-        </p>
+        <p className="mb-4 text-sm text-slate-600">This demo runs on Snowflake with optional AWS integration.</p>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded border border-blue-200 bg-blue-50 p-4">
             <h3 className="text-sm font-bold text-blue-800">Snowflake Features</h3>
@@ -178,18 +124,11 @@ export default function HomePage() {
 
   const tabs = [
     { id: 'executive-cockpit', label: 'Executive Cockpit', icon: '📊', content: executiveCockpit },
-    { id: 'domain-1', label: 'Oil Trading Analytics', icon: '📈', content: domainTab1 },
-    { id: 'domain-2', label: 'Alerts & Actions', icon: '⚡', content: domainTab2 },
+    { id: 'domain-1', label: 'Price Analytics', icon: '📈', content: domainTab1 },
+    { id: 'domain-2', label: 'Trade Risk', icon: '⚡', content: domainTab2 },
     { id: 'ask-ai', label: 'Ask AI', icon: '🤖', content: askAiTab },
     { id: 'architecture', label: 'Architecture & Data', icon: '🏗️', content: architectureTab },
   ];
 
-  return (
-    <AppLayout
-      title={title}
-      subtitle="Powered by Snowflake + AWS"
-      tabs={tabs}
-      narrative={narrative}
-    />
-  );
+  return <AppLayout title={title} subtitle="Powered by Snowflake + AWS" tabs={tabs} narrative={narrative} />;
 }
