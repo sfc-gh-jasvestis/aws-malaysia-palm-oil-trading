@@ -89,7 +89,7 @@ export default function HomePage() {
 
   const askAiTab = (
     <div className="h-[600px]">
-      <AskAI title="Ask AI" sampleQuestions={['What is the CPO price forecast?', 'Show export duty impact vs Indonesia', 'Which markets have best margins?']} mode="both" onSubmit={async (question, mode) => ({ answer: `[Demo Mode] Response to: "${question}" (${mode} mode). Connect to Snowflake for live data.`, sql: mode === 'sql' ? 'SELECT * FROM CURATED.SUMMARY LIMIT 10;' : undefined })} />
+      <AskAI title="Ask AI" sampleQuestions={['What is the CPO price forecast?', 'Show export duty impact vs Indonesia', 'Which markets have best margins?']} onSubmit={async (question, mode) => ({ answer: `[Demo Mode] Response to: "${question}" Connect to Snowflake for live data.`, sql: mode === 'sql' ? 'SELECT * FROM CURATED.SUMMARY LIMIT 10;' : undefined })} />
     </div>
   );
 
