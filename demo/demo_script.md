@@ -1,109 +1,83 @@
-# Demo Script: Commodity Trading Intelligence
-## ~4-Minute Recorded Walkthrough
-**Format**: Screen recording with voiceover
-**Target**: Customer meeting / booth loop / social share
-**Narrative**: "Snowflake streams MDEX price feeds in real-time, forecasts CPO prices with ML, detects position risk anomalies, and answers trading queries in natural language — all native SQL, no external quant platform needed"
-**Demo Mode**: Open app with `?demo=true` for presenter notes
+# Commodity Trading Intelligence
 
----
+**Malaysia - Palm Oil & Commodity Trading**
+Use case: Commodity Trading
 
-## Two Personas
+> Real-time CPO trading analytics for MDEX — Snowpipe Streaming ingests price feeds, ML.FORECAST predicts CPO prices, and Cortex Agent answers trading queries in natural language.
 
-| Persona | Role | Tool | What they care about |
-|---|---|---|---|
-| **Encik Rizal bin Osman** | Head of Trading | React App (SPCS) | P&L, position risk, margin calls, hedging effectiveness, market volatility |
-| **Michelle Tan** | Commodity Analyst | Amazon QuickSight | Price patterns, basis risk, spread analysis, market report synthesis, competitor positioning |
+## Why Snowflake
 
----
+Snowflake streams MDEX price feeds in real-time, forecasts CPO prices with ML, detects position risk anomalies, and answers trading queries in natural language — all native SQL, no external quant platform needed
 
-## What's Built
+- **ML.FORECAST on CPO price timeseries** - Only demo forecasting commodity prices — not demand or yields
+- **Snowpipe Streaming for MDEX price feeds** - Only demo ingesting real-time exchange price data via streaming
+- **ML.ANOMALY_DETECTION for position risk** - Only demo detecting anomalous trading positions — not manufacturing or IoT
+- **Malaysian CPO/MDEX trading context** - Malaysia as global CPO price-setter via Bursa Malaysia Derivatives
+- **100 market reports searchable** - Cortex Search on broker research, MPOB monthly data, and USDA WASDE
+- **AWS Kinesis + EventBridge for trading events** - Only demo combining streaming price ingestion with event-driven margin alerts
 
-| Layer | Component | Detail |
+## What is deployed
+
+| | |
+|---|---|
+| Database | `MY_PALM_OIL_TRADING` |
+| Service | `MY_PALM_OIL_TRADING_APP` |
+| Compute pool | `SEA_DEMOS_MALAYSIA_POOL` |
+| Dimension table | `RAW.MARKET_REPORTS` (20 rows) |
+| Fact table | `RAW.CPO_TRADES` (250,000 rows, 90 days) |
+| Curated layer | `CURATED.PERFORMANCE_SUMMARY`, `CURATED.TREND_ANALYSIS`, `CURATED.KPI_SUMMARY` |
+| Currency | MYR (RM) |
+
+Regions in play: Selangor, Johor, Penang, Sabah, Sarawak
+Segments: CPO Futures, Physical Delivered, Palm Kernel Oil, Biodiesel Feedstock
+
+Dynamic tables are created suspended and refreshed on demand:
+
+```bash
+./refresh_demo_data.sh MY_PALM_OIL_TRADING
+```
+
+## KPI cards
+
+Every card below is served live from `CURATED.KPI_SUMMARY`. The app keeps the
+original literal as a fallback, so it still renders if Snowflake is unreachable.
+
+| Card | Value | Backed by |
 |---|---|---|
-| **RAW** | 7 tables | CPO_TRADES (100000), POSITIONS (5000), MDEX_PRICES (50000), HEDGE_RECORDS (2000), MARKET_REPORTS (100), COUNTERPARTIES (200), CPO_PRICE_HISTORY (10000) |
-| **CURATED** | 4 Dynamic Tables | POSITION_RISK_SUMMARY, CPO_PRICE_TIMESERIES, HEDGE_EFFECTIVENESS, TRADING_PNL |
-| **ML** | ML.FORECAST + ML.ANOMALY_DETECTION | Forecasting + anomaly detection |
-| **AI** | SUMMARIZE, AI_EXTRACT, AI_CLASSIFY | Classification + extraction |
-| **Search** | Cortex Search | 100 documents indexed |
-| **Agent** | TRADING_INTELLIGENCE_AGENT | Semantic View + Search tools |
+| CPO Price (BMD) | `RM 3,847/MT` | average per event |
+| Export Volume (MTD) | `1.8M MT` | total across Market Reports |
+| Export Duty | `8%` | average per event |
+| Active Contracts | `284` | total across Market Reports |
+| FOB Premium | `+RM 84/MT` | average per event |
+| B20 Impact | `+420K MT` | total across Market Reports |
+| India Duty | `12.5%` | average per event |
 
 
----
+## Demo flow
 
-## The Story
+1. Executive Cockpit
+2. Price Analytics
+3. Position Risk
+4. Ask AI
+5. Architecture & Data
 
-A Malaysian palm oil trading house operates on Bursa Malaysia Derivatives (MDEX), managing RM 2.8B in monthly CPO futures and physical trading volume. Three margin calls triggered this month as back-month spreads widened unexpectedly. The Head of Trading needs real-time position risk visibility, price forecasts, and instant access to market intelligence — without waiting for overnight batch reports.
+## Talking points
 
----
+- **RM 2.8B** - monthly trading volume (futures + physical)
+- **5,000 open positions** - across CPO futures and physical contracts
+- **$42/tonne premium** - CPO futures premium vs spot price
+- **3 margin calls** - triggered this month on back-month spreads
+- **100 market reports** - indexed in Cortex Search
+- **92% hedge effectiveness** - declining from 97% (policy minimum: 90%)
+- **RM 4,280/tonne** - ML.FORECAST predicted front-month CPO settlement
 
-## Script
+## Business impact
 
-### [0:00–0:45] EXECUTIVE COCKPIT
-
-**Show**: Executive Cockpit tab
-
-> "RM 2.8 billion monthly trading volume across CPO futures and physical contracts."
-
-**Action**: Point at the RM 2.8B volume KPI
-
-### [0:45–1:30] PRICE ANALYTICS
-
-**Show**: Price Analytics tab
-
-> "ML.FORECAST predicts CPO front-month settling at RM 4,280/tonne — 3.2% above current."
-
-**Action**: Show CPO price chart with ML forecast band
-
-### [1:30–2:15] POSITION RISK
-
-**Show**: Position Risk tab
-
-> "Five thousand positions, RM 340M total margin deployed. Three positions above 85% margin utilization."
-
-**Action**: Show position risk heatmap by desk and contract month
-
-### [2:15–3:00] ASK AI
-
-**Show**: Ask AI tab
-
-> "Encik Rizal asks: 'Which positions are at risk of margin call this week?'"
-
-**Action**: Type: 'Which positions are approaching margin call?'
-
-### [3:00–3:45] ARCHITECTURE & DATA
-
-**Show**: Architecture & Data tab
-
-> "Seven Snowflake capabilities, six AWS services."
-
-**Action**: Walk through architecture diagram
-
+- Bursa Malaysia Derivatives (MDEX) CPO futures traded RM 120B notional volume in 2023 (Bursa Malaysia)
+- Malaysia accounts for 27% of global palm oil exports, with CPO as the benchmark pricing contract (MPOB)
+- Real-time risk analytics reduces margin call events by 35% through early warning systems (McKinsey Commodities)
+- AI-powered trading analytics improves hedge effectiveness by 8-15% for commodity desks (Deloitte Trading)
 
 ---
-
-## Key Demo Differentiators
-
-1. **ML.FORECAST on CPO price timeseries** — Only demo forecasting commodity prices — not demand or yields
-2. **Snowpipe Streaming for MDEX price feeds** — Only demo ingesting real-time exchange price data via streaming
-3. **ML.ANOMALY_DETECTION for position risk** — Only demo detecting anomalous trading positions — not manufacturing or IoT
-4. **Malaysian CPO/MDEX trading context** — Malaysia as global CPO price-setter via Bursa Malaysia Derivatives
-5. **100 market reports searchable** — Cortex Search on broker research, MPOB monthly data, and USDA WASDE
-6. **AWS Kinesis + EventBridge for trading events** — Only demo combining streaming price ingestion with event-driven margin alerts
-
-
----
-
-## Demo Prep Checklist
-
-### Data Verification
-- [ ] `SELECT COUNT(*) FROM PALM_OIL_TRADING.RAW.CPO_TRADES` → 100000
-- [ ] `SELECT COUNT(*) FROM PALM_OIL_TRADING.RAW.POSITIONS` → 5000
-- [ ] `SELECT COUNT(*) FROM PALM_OIL_TRADING.RAW.MDEX_PRICES` → 50000
-
-### ML Model Verification
-- [ ] `SELECT COUNT(*) FROM PALM_OIL_TRADING.ML.CPO_PRICE_FORECAST_RESULTS` → >0
-- [ ] `SELECT SUM(CASE WHEN IS_ANOMALY THEN 1 ELSE 0 END) FROM PALM_OIL_TRADING.ML.POSITION_RISK_ANOMALY_RESULTS` → >=3
-
-### AI/Agent Verification
-- [ ] `SELECT COUNT(*) FROM PALM_OIL_TRADING.AI.MARKET_REPORT_EXTRACTIONS` → 100
-
+Generated from `generator/demo_specs/aws-malaysia-palm-oil-trading.json`. Do not hand-edit: run
+`python3 generator/gen_repo_docs.py aws-malaysia-palm-oil-trading` instead.
