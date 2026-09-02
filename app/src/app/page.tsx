@@ -32,15 +32,22 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
+
+  // KPI values come from /api/data, which reads CURATED.KPI_SUMMARY. The literal
+  // stays as a fallback so the card still renders if the API is unavailable.
+  const kpiVal = (title: string, fallback: string): string =>
+    (data?.kpiCards as { title: string; value: string }[] | undefined)
+      ?.find((k) => k.title === title)?.value ?? fallback;
+
   const title = narrative?.title || 'SEA AWS Demo';
 
   const executiveCockpit = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="CPO Price (BMD)" value="RM 3,847/MT" status="neutral" />
-        <KPICard title="Export Volume (MTD)" value="1.8M MT" status="neutral" />
-        <KPICard title="Export Duty" value="8%" status="neutral" />
-        <KPICard title="Active Contracts" value="284" status="neutral" />
+        <KPICard title="CPO Price (BMD)" value={kpiVal('CPO Price (BMD)', 'RM 3,847/MT')} status="neutral" />
+        <KPICard title="Export Volume (MTD)" value={kpiVal('Export Volume (MTD)', '1.8M MT')} status="neutral" />
+        <KPICard title="Export Duty" value={kpiVal('Export Duty', '8%')} status="neutral" />
+        <KPICard title="Active Contracts" value={kpiVal('Active Contracts', '284')} status="neutral" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="lg:col-span-1">
@@ -71,9 +78,9 @@ export default function HomePage() {
   const domainTab1 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KPICard title="FOB Premium" value="+RM 84/MT" />
-        <KPICard title="B20 Impact" value="+420K MT" />
-        <KPICard title="India Duty" value="12.5%" />
+        <KPICard title="FOB Premium" value={kpiVal('FOB Premium', '+RM 84/MT')} />
+        <KPICard title="B20 Impact" value={kpiVal('B20 Impact', '+420K MT')} />
+        <KPICard title="India Duty" value={kpiVal('India Duty', '12.5%')} />
       </div>
       <Chart data={data?.detail || [{ x: 'Mon', y: 24 }, { x: 'Tue', y: 28 }, { x: 'Wed', y: 22 }, { x: 'Thu', y: 31 }, { x: 'Fri', y: 26 }, { x: 'Sat', y: 19 }, { x: 'Sun', y: 23 }]} type="area" xKey="x" yKeys={[{ key: 'y', name: 'RM/MT' }]} title="CPO Price Forecast (30-day)" height={400} />
     </div>
