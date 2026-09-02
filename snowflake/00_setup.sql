@@ -1,16 +1,13 @@
--- ============================================================================
--- Commodity Trading Intelligence
--- Real-time CPO trading analytics for MDEX — Snowpipe Streaming ingests price feeds, ML.FORECAST predicts CPO prices, and Cortex Agent answers trading queries in natural language.
--- ============================================================================
-USE ROLE ACCOUNTADMIN;
-CREATE DATABASE IF NOT EXISTS PALM_OIL_TRADING;
-CREATE WAREHOUSE IF NOT EXISTS TRADING_WH WAREHOUSE_SIZE = 'MEDIUM' AUTO_SUSPEND = 120 AUTO_RESUME = TRUE;
-USE DATABASE PALM_OIL_TRADING;
-CREATE SCHEMA IF NOT EXISTS RAW;
-CREATE SCHEMA IF NOT EXISTS CURATED;
-CREATE SCHEMA IF NOT EXISTS ML;
-CREATE SCHEMA IF NOT EXISTS AI;
-CREATE SCHEMA IF NOT EXISTS SEARCH;
-CREATE SCHEMA IF NOT EXISTS APP;
+-- Generated from generator/demo_specs/aws-malaysia-palm-oil-trading.json
+-- Regenerate with: python3 generator/gen_repo_docs.py aws-malaysia-palm-oil-trading
+-- This is the schema that is actually deployed for MY_PALM_OIL_TRADING.
 
-USE WAREHOUSE TRADING_WH;
+-- MY_PALM_OIL_TRADING  (Commodity Trading Intelligence)
+-- generated from generator/demo_specs/aws-malaysia-palm-oil-trading.json - do not hand-edit
+CREATE DATABASE IF NOT EXISTS MY_PALM_OIL_TRADING;
+CREATE SCHEMA IF NOT EXISTS MY_PALM_OIL_TRADING.RAW;
+CREATE SCHEMA IF NOT EXISTS MY_PALM_OIL_TRADING.CURATED;
+CREATE SCHEMA IF NOT EXISTS MY_PALM_OIL_TRADING.APP;
+USE DATABASE MY_PALM_OIL_TRADING;
+
+-- 5 real regions; entity names carry their region so the two always agree
