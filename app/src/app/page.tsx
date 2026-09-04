@@ -53,6 +53,7 @@ export default function HomePage() {
         <div className="lg:col-span-1">
           <GeoMap
             country="malaysia"
+            labels={{ entity: 'Buyers', event: 'CPO Trades', alert: 'Limit Breaches' }}
             regions={data?.regions}
             markers={[{"label": "Kuala Lumpur", "value": "PETRONAS Tower HQ", "color": "blue", "size": "lg"}, {"label": "Johor Bahru", "value": "Refinery: 242K bpd", "color": "green", "size": "lg"}, {"label": "Kota Kinabalu", "value": "Deepwater ops", "color": "green", "size": "md"}, {"label": "Kuching", "value": "Sarawak gas", "color": "green", "size": "md"}]}
             routes={[]}
@@ -70,9 +71,14 @@ export default function HomePage() {
       <DataTable columns={[
           { key: 'id', header: '#' },
           { key: 'name', header: 'Buyer' },
+          { key: 'region', header: 'Region' },
           { key: 'status', header: 'Trend' },
-          { key: 'value', header: 'Volume (K MT)' },
-      ]} data={data?.entities || []} title="Trading Performance" />
+          { key: 'm1', header: 'Volume (K MT)' },
+          { key: 'm2', header: 'Export Duty' },
+          { key: 'm3', header: 'Fob Premium' },
+          { key: 'events', header: 'CPO Trades' },
+          { key: 'alerts', header: 'Limit Breaches' },
+        ]} data={data?.entities || []} title="Trading Performance" />
     </div>
   );
 
