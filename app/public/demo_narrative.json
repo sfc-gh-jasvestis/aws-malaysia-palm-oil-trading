@@ -1,0 +1,142 @@
+{
+  "title": "Malaysia Palm Oil Trading Settlements",
+  "duration": "6 minutes",
+  "thesis": "A fictional Malaysian palm oil trading house ships crude palm oil, RBD palm olein and stearin, palm kernel oil and PFAD to 120 synthetic buyers. Snowflake turns its daily invoice settlements into on-time and overdue-exposure KPIs, a 14-day late-settlement risk score, letter-of-credit headroom anomalies and cited AI answers for the trade-credit team.",
+  "tabs": [
+    {
+      "id": "executive-cockpit",
+      "persona": {
+        "name": "Nurul Aisyah",
+        "role": "Head of Trade Credit (fictional)",
+        "avatar": ""
+      },
+      "talking_points": [
+        "Settlement health for 120 fictional palm product buyers, booked through five Malaysian port cities: Port Klang, Pasir Gudang, Kuantan, Lahad Datu and Bintulu.",
+        "On-time rate, late settlements and the share of open exposure more than 30 days overdue are each computed as a numerator over a denominator in a curated dynamic table.",
+        "The product chart separates crude palm oil, RBD olein, RBD stearin, palm kernel oil and PFAD, so the desk sees which product book is slipping."
+      ],
+      "show": [
+        "KPI cards",
+        "Daily settlements",
+        "Settlements by product",
+        "Buyer table"
+      ],
+      "call_out": "One governed view of palm cargo receivables, traceable to buyer-day rows",
+      "transition": {
+        "next_tab": "predictive",
+        "line": "Which buyers will pay late on the next cargo?"
+      }
+    },
+    {
+      "id": "predictive",
+      "persona": {
+        "name": "Tan Wei Ming",
+        "role": "Settlement Operations Lead (fictional)",
+        "avatar": ""
+      },
+      "talking_points": [
+        "A Snowflake ML classifier estimates each buyer's chance of settling an invoice late in the next 14 days, from overdue days, LC headroom trend and vessel nominations.",
+        "Precision and recall come from an out-of-time holdout (the latest 14 labelled days) and are shown next to the base rate.",
+        "Anomaly detection flags sudden letter-of-credit headroom drops, and a 14-day forecast projects late settlements across the desk."
+      ],
+      "show": [
+        "Holdout metrics",
+        "Risk by buyer",
+        "Late-settlement forecast",
+        "LC headroom drops"
+      ],
+      "call_out": "Honest, evaluated ML inside the data platform",
+      "transition": {
+        "next_tab": "planning",
+        "line": "Is the credit desk keeping up?"
+      }
+    },
+    {
+      "id": "planning",
+      "persona": {
+        "name": "Tan Wei Ming",
+        "role": "Settlement Operations Lead (fictional)",
+        "avatar": ""
+      },
+      "talking_points": [
+        "Payment-commitment rate and shipping-document coverage (certificates of analysis, bills of lading, surveyor quantity reports, letters of credit, certificates of origin) show where follow-up stalls.",
+        "The credit score scatter shows an association with late settlements, not a cause.",
+        "The action memo drafts three prioritised credit-desk actions from the KPI, buyer, product and risk tables only. It is not a price view or trading advice."
+      ],
+      "show": [
+        "Payment commitments and document coverage",
+        "Score vs late settlements",
+        "Action memo"
+      ],
+      "call_out": "Grounded draft actions, with a human in the loop",
+      "transition": {
+        "next_tab": "live",
+        "line": "What happens when a settlement runs late right now?"
+      }
+    },
+    {
+      "id": "live",
+      "persona": {
+        "name": "Tan Wei Ming",
+        "role": "Settlement Operations Lead (fictional)",
+        "avatar": ""
+      },
+      "talking_points": [
+        "Settlement events arrive in RAW.LIVE_SETTLEMENTS from the native simulator, or from Amazon Data Firehose through S3 and Snowpipe in the AWS build.",
+        "When an invoice turns LATE, the Snowflake alert records the matching playbook and the buyer's risk band and emails the credit desk."
+      ],
+      "show": [
+        "Events loaded and lag",
+        "Latest settlement events",
+        "Alert log"
+      ],
+      "call_out": "From late settlement to credit-desk action in one platform",
+      "transition": {
+        "next_tab": "ask-ai",
+        "line": "Ask the receivables data a question."
+      }
+    },
+    {
+      "id": "ask-ai",
+      "persona": {
+        "name": "Nurul Aisyah",
+        "role": "Head of Trade Credit (fictional)",
+        "avatar": ""
+      },
+      "talking_points": [
+        "The Cortex Agent answers metric questions through Cortex Analyst on the semantic view, and procedure questions through Cortex Search over 15 synthetic settlement playbooks.",
+        "Every answer exposes its generated SQL and the playbook IDs it cites."
+      ],
+      "show": [
+        "Ask a sample question",
+        "Generated SQL",
+        "Playbook citations"
+      ],
+      "call_out": "Natural-language answers you can audit",
+      "transition": {
+        "next_tab": "architecture",
+        "line": "Here is how it is built."
+      }
+    },
+    {
+      "id": "architecture",
+      "persona": {
+        "name": "Nurul Aisyah",
+        "role": "Head of Trade Credit (fictional)",
+        "avatar": ""
+      },
+      "talking_points": [
+        "The Snowflake-only build and the AWS + Snowflake build (Data Firehose, S3, Bedrock, QuickSight and Amazon Q) share one core.",
+        "All buyers, cargoes and amounts are synthetic and rebuild identically from the repo."
+      ],
+      "show": [
+        "Both architecture diagrams"
+      ],
+      "call_out": "One governed core, with an optional AWS edge",
+      "transition": {
+        "next_tab": "",
+        "line": "Questions?"
+      }
+    }
+  ]
+}
